@@ -643,6 +643,13 @@ with col1 :
 
         current_time = datetime.datetime.utcnow().isoformat()
 
+        # dataframe_csv = repo_additions.to_csv(f'Github_repo_additions_{current_time}.csv')
+        dataframe_json = repo_additions.to_json(orient ='records')
+
+        # repo_additions_cid = w3.post_upload((f'Github_repo_additions_{current_time}.csv', open(f'Github_repo_additions_{current_time}.csv', 'rb')))
+        repo_additions_cid = w3.post_upload((f'Github_repo_additions_{current_time}.json', json.dumps(dataframe_json)))
+
+
         dataframe_csv = repo_additions.to_csv(f'Github_repo_additions_{current_time}.csv')
 
         repo_additions_cid = w3.post_upload((f'Github_repo_additions_{current_time}.csv', open(f'Github_repo_additions_{current_time}.csv', 'rb')))
@@ -885,9 +892,11 @@ with col1 :
                     # IMPORTANT: Cache the conversion to prevent computation on every rerun
                     current_time = datetime.datetime.utcnow().isoformat()
 
-                    dataframe_csv = final_dataframe.to_csv(f'Project_info_scores_{current_time}.csv')
+                    # dataframe_csv = final_dataframe.to_csv(f'Project_info_scores_{current_time}.csv')
+                    dataframe_json = final_dataframe.to_json(orient ='records')
 
-                    project_cid = w3.post_upload((f'Project_info_scores_{current_time}.csv', open(f'Project_info_scores_{current_time}.csv', 'rb')))
+                    # project_cid = w3.post_upload((f'Project_info_scores_{current_time}.json', open(f'Project_info_scores_{current_time}.csv', 'rb')))
+                    project_cid = w3.post_upload((f'Project_info_scores_{current_time}.json', json.dumps(dataframe_json)))
 
                     if repo_additions_cid is not None:
                         st.success(f'Please find a query results on project scores using this CID {project_cid}. Use the following URL - https://ipfs.io/ipfs/{project_cid}', icon="✅")
