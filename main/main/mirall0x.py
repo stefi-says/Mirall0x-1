@@ -648,9 +648,9 @@ with col1 :
         repo_additions_cid = w3.post_upload((f'Github_repo_additions_{current_time}.csv', open(f'Github_repo_additions_{current_time}.csv', 'rb')))
 
         if repo_additions_cid is not None:
-            st.success(f'Please find a querry results on repository''s additions using this CID {repo_additions_cid}', icon="✅")
+            st.success(f'Please find a query results on repository''s additions using this CID {repo_additions_cid}. Use the following URL - https://ipfs.io/ipfs/{repo_additions_cid}', icon="✅")
         else:
-            st.success(f'We were unable to store your query results. Please contact admin.')
+            st.error(f'We were unable to store your query results. Please contact admin.', icon="🚨")
 
         repo_deletions = x1[1]
             
@@ -889,10 +889,10 @@ with col1 :
 
                     project_cid = w3.post_upload((f'Project_info_scores_{current_time}.csv', open(f'Project_info_scores_{current_time}.csv', 'rb')))
 
-                    if project_cid is not None:
-                        st.success(f'Please find your query results on project scores using this CID {project_cid}', icon="✅")
+                    if repo_additions_cid is not None:
+                        st.success(f'Please find a query results on project scores using this CID {project_cid}. Use the following URL - https://ipfs.io/ipfs/{project_cid}', icon="✅")
                     else:
-                        st.success(f'We were unable to store your query results. Please contact admin.')
+                        st.error(f'We were unable to store your query results. Please contact admin.', icon="🚨")
                     
                     return project_cid
                 
