@@ -643,16 +643,12 @@ with col1 :
 
         current_time = datetime.datetime.utcnow().isoformat()
 
-        # dataframe_csv = repo_additions.to_csv(f'Github_repo_additions_{current_time}.csv')
-        dataframe_json = repo_additions.to_json(orient ='records')
+        # repo_dataframe_csv = repo_additions.to_csv(f'Github_repo_additions_{current_time}.csv')
+        repo_dataframe_json = x1[0].to_json(orient ='records')
 
         # repo_additions_cid = w3.post_upload((f'Github_repo_additions_{current_time}.csv', open(f'Github_repo_additions_{current_time}.csv', 'rb')))
-        repo_additions_cid = w3.post_upload((f'Github_repo_additions_{current_time}.json', json.dumps(dataframe_json)))
+        repo_additions_cid = w3.post_upload((f'Github_repo_additions_{current_time}.json', json.dumps(repo_dataframe_json)))
 
-
-        dataframe_csv = repo_additions.to_csv(f'Github_repo_additions_{current_time}.csv')
-
-        repo_additions_cid = w3.post_upload((f'Github_repo_additions_{current_time}.csv', open(f'Github_repo_additions_{current_time}.csv', 'rb')))
 
         if repo_additions_cid is not None:
             st.success(f'Please find a query results on repository''s additions using this CID {repo_additions_cid}. Use the following URL - https://ipfs.io/ipfs/{repo_additions_cid}', icon="✅")
