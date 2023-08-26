@@ -641,8 +641,7 @@ with col1 :
 
         w3 = iws.API(token=st.secrets["storage_token"])
 
-        current_time = datetime.datetime.fromisoformat()
-        current_time = current_time.isoformat()
+        current_time = datetime.datetime.utcnow().isoformat()
 
         dataframe_csv = repo_additions.to_csv(f'Github_repo_additions_{current_time}.csv')
 
@@ -882,11 +881,9 @@ with col1 :
                     return final_dataframe.to_csv().encode('utf-8')
 
                 @st.cache_data
-                def store_df():
+                def store_df(final_dataframe):
                     # IMPORTANT: Cache the conversion to prevent computation on every rerun
-                    final_dataframe = final_dataframe
-                    current_time = datetime.datetime.fromisoformat()
-                    current_time = current_time.isoformat()
+                    current_time = datetime.datetime.utcnow().isoformat()
 
                     dataframe_csv = final_dataframe.to_csv(f'Project_info_scores_{current_time}.csv')
 
@@ -908,7 +905,7 @@ with col1 :
                     mime='text/csv',
                 )
 
-                st.button('Store data on IPFS', on_click=store_df)
+                st.button('Store data on IPFS', on_click=store_df(final_dataframe))
 
         
         
