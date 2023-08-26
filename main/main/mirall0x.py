@@ -16,7 +16,7 @@ import gspread
 
 from datetime import datetime as dt
 from datetime import timedelta
-from ipfs_web3storage as iws
+import ipfs_web3storage as iws
 
 
 
@@ -652,7 +652,7 @@ with col1 :
             st.success(f'Please find a querry results on repository''s additions using this CID {repo_additions_cid}', icon="✅")
         else:
             st.success(f'We were unable to store your query results. Please contact admin.')
-            
+
         repo_deletions = x1[1]
             
 
