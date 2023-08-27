@@ -640,12 +640,12 @@ with col1 :
         repo_additions = x1[0]
 
         w3 = iws.API(token=st.secrets["storage_token"])
-        
+
         def store_repo_df(final_dataframe):
             current_time = datetime.datetime.utcnow().isoformat()
 
             # repo_dataframe_csv = repo_additions.to_csv(f'Github_repo_additions_{current_time}.csv')
-            repo_dataframe_json = repo_additions.to_json(orient ='records')
+            repo_dataframe_json = final_dataframe.to_json(orient ='records')
 
             # repo_additions_cid = w3.post_upload((f'Github_repo_additions_{current_time}.csv', open(f'Github_repo_additions_{current_time}.csv', 'rb')))
             repo_additions_cid = w3.post_upload((f'Github_repo_additions_{current_time}.json', json.dumps(repo_dataframe_json)))
