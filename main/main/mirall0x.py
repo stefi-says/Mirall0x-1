@@ -640,20 +640,25 @@ with col1 :
         repo_additions = x1[0]
 
         w3 = iws.API(token=st.secrets["storage_token"])
+        
+        def store_repo_df(final_dataframe):
+            current_time = datetime.datetime.utcnow().isoformat()
 
-        current_time = datetime.datetime.utcnow().isoformat()
+            # repo_dataframe_csv = repo_additions.to_csv(f'Github_repo_additions_{current_time}.csv')
+            repo_dataframe_json = repo_additions.to_json(orient ='records')
 
-        # repo_dataframe_csv = repo_additions.to_csv(f'Github_repo_additions_{current_time}.csv')
-        repo_dataframe_json = x1[0].to_json(orient ='records')
-
-        # repo_additions_cid = w3.post_upload((f'Github_repo_additions_{current_time}.csv', open(f'Github_repo_additions_{current_time}.csv', 'rb')))
-        repo_additions_cid = w3.post_upload((f'Github_repo_additions_{current_time}.json', json.dumps(repo_dataframe_json)))
+            # repo_additions_cid = w3.post_upload((f'Github_repo_additions_{current_time}.csv', open(f'Github_repo_additions_{current_time}.csv', 'rb')))
+            repo_additions_cid = w3.post_upload((f'Github_repo_additions_{current_time}.json', json.dumps(repo_dataframe_json)))
 
 
-        if repo_additions_cid is not None:
-            st.success(f'Please find a query results on repository''s additions using this CID {repo_additions_cid}. Use the following URL - https://ipfs.io/ipfs/{repo_additions_cid}', icon="✅")
-        else:
-            st.error(f'We were unable to store your query results. Please contact admin.', icon="🚨")
+            if repo_additions_cid is not None:
+                st.success(f'Please find a query results on repository''s additions using this CID {repo_additions_cid}. Use the following URL - https://ipfs.io/ipfs/{repo_additions_cid}', icon="✅")
+            else:
+                st.error(f'We were unable to store your query results. Please contact admin.', icon="🚨")
+
+            return repo_additions_cid
+
+        store_repo_csv = store_repo_df(repo_additions)
 
         repo_deletions = x1[1]
             
