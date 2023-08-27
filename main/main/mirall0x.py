@@ -902,6 +902,8 @@ with col1 :
                     return project_cid
                 
                 csv = convert_df(final_dataframe)
+
+                store_csv = store_df(final_dataframe)
                 
                 st.download_button(
                     label="Download data as CSV",
@@ -909,8 +911,6 @@ with col1 :
                     file_name='final_dataframe.csv',
                     mime='text/csv',
                 )
-
-                st.button('Store data on IPFS', on_click=store_df(final_dataframe))
 
         
         
