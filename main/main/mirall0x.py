@@ -13,10 +13,11 @@ import pytz
 import time
 import re
 import gspread
+import ipfs_web3storage as iws
 
 from datetime import datetime as dt
 from datetime import timedelta
-import ipfs_web3storage as iws
+
 
 
 
@@ -638,23 +639,25 @@ with col1 :
         repo_raw_data = returned[1]
 
         repo_additions = x1[0]
+        repo_deletions = x1[1]
 
         w3 = iws.API(token=st.secrets["storage_token"])
-
-        def store_repo_df(final_dataframe):
+        
+        @st.cache_data()
+        def store_repo_df(repo_additions):
 
             current_time = datetime.datetime.utcnow().isoformat()
 
             # repo_dataframe_csv = repo_additions.to_csv(f'Github_repo_additions_{current_time}.csv')
-            repo_dataframe_json = final_dataframe.to_json(orient ='records')
+            repo_dataframe_json = repo_additions.to_json(orient ='records')
             print()
 
             # repo_additions_cid = w3.post_upload((f'Github_repo_additions_{current_time}.csv', open(f'Github_repo_additions_{current_time}.csv', 'rb')))
             repo_additions_cid = w3.post_upload((f'Github_repo_additions_{current_time}.json', json.dumps(repo_dataframe_json)))
-            print(repo_additions_cid)
+            # print(repo_additions_cid)
 
             if repo_additions_cid is not None:
-                st.success(f'Please find a query results on repository''s additions using this CID {repo_additions_cid}. Use the following URL - https://ipfs.io/ipfs/{repo_additions_cid}', icon="✅")
+                st.success(f'Please find a query results on repository additions using this CID {repo_additions_cid}. Use the following URL - https://ipfs.io/ipfs/{repo_additions_cid}', icon="✅")
             else:
                 st.error(f'We were unable to store your query results. Please contact admin.', icon="🚨")
 
@@ -662,14 +665,8 @@ with col1 :
 
         store_repo_csv = store_repo_df(repo_additions)
 
-        print(store_repo_csv)
 
-        if store_repo_csv is not None:
-            st.success(f'Please find a query results on repository''s additions using this CID {store_repo_csv}. Use the following URL - https://ipfs.io/ipfs/{store_repo_csv}', icon="✅")
-        else:
-            st.error(f'We were unable to store your query results. Please contact admin.', icon="🚨")
-
-        repo_deletions = x1[1]
+      
             
 
 
