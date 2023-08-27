@@ -642,14 +642,16 @@ with col1 :
         w3 = iws.API(token=st.secrets["storage_token"])
 
         def store_repo_df(final_dataframe):
+
             current_time = datetime.datetime.utcnow().isoformat()
 
             # repo_dataframe_csv = repo_additions.to_csv(f'Github_repo_additions_{current_time}.csv')
             repo_dataframe_json = final_dataframe.to_json(orient ='records')
+            print()
 
             # repo_additions_cid = w3.post_upload((f'Github_repo_additions_{current_time}.csv', open(f'Github_repo_additions_{current_time}.csv', 'rb')))
             repo_additions_cid = w3.post_upload((f'Github_repo_additions_{current_time}.json', json.dumps(repo_dataframe_json)))
-
+            print(repo_additions_cid)
 
             if repo_additions_cid is not None:
                 st.success(f'Please find a query results on repository''s additions using this CID {repo_additions_cid}. Use the following URL - https://ipfs.io/ipfs/{repo_additions_cid}', icon="✅")
@@ -659,6 +661,13 @@ with col1 :
             return repo_additions_cid
 
         store_repo_csv = store_repo_df(repo_additions)
+
+        print(store_repo_csv)
+
+        if store_repo_csv is not None:
+            st.success(f'Please find a query results on repository''s additions using this CID {store_repo_csv}. Use the following URL - https://ipfs.io/ipfs/{store_repo_csv}', icon="✅")
+        else:
+            st.error(f'We were unable to store your query results. Please contact admin.', icon="🚨")
 
         repo_deletions = x1[1]
             
@@ -899,7 +908,7 @@ with col1 :
                     # project_cid = w3.post_upload((f'Project_info_scores_{current_time}.json', open(f'Project_info_scores_{current_time}.csv', 'rb')))
                     project_cid = w3.post_upload((f'Project_info_scores_{current_time}.json', json.dumps(dataframe_json)))
 
-                    if repo_additions_cid is not None:
+                    if project_cid is not None:
                         st.success(f'Please find a query results on project scores using this CID {project_cid}. Use the following URL - https://ipfs.io/ipfs/{project_cid}', icon="✅")
                     else:
                         st.error(f'We were unable to store your query results. Please contact admin.', icon="🚨")
